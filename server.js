@@ -23,17 +23,23 @@ const PORT = process.env.PORT || 5000;
 
 async function startServer() {
     try {
-        await mongoose.connect(process.env.MONGO_URL);
+        console.log("MONGO_URL exists:", !!process.env.MONGO_URL);
+
+        await mongoose.connect(process.env.MONGO_URL, {
+            serverSelectionTimeoutMS: 10000
+        });
 
         console.log("MongoDB Connected");
 
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
         });
+
     } catch (error) {
-        console.error("Server startup failed:", error.message);
+        console.error("MongoDB connection failed");
+        console.error("Error:", error.message);
+        console.error("Code:", error.code);
         process.exit(1);
     }
 }
-
 startServer();
