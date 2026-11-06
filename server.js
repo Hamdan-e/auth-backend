@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+
 require("dotenv").config();
 
+// // Enable custom DNS
+// console.log("Custom DNS enabled:", process.env.USE_PUBLIC_DNS);
+
+// if (process.env.USE_PUBLIC_DNS === "true") {
+//     dns.setServers(["8.8.8.8", "1.1.1.1"]);
+// }
+
 const authRoutes = require("./routes/authRoutes");
-
-// const dns = require("dns");
-
-// dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const app = express();
 
@@ -26,7 +30,7 @@ async function startServer() {
         console.log("MONGO_URL exists:", !!process.env.MONGO_URL);
 
         await mongoose.connect(process.env.MONGO_URL, {
-            serverSelectionTimeoutMS: 10000
+            serverSelectionTimeoutMS: 15000
         });
 
         console.log("MongoDB Connected");
@@ -37,9 +41,9 @@ async function startServer() {
 
     } catch (error) {
         console.error("MongoDB connection failed");
-        console.error("Error:", error.message);
-        console.error("Code:", error.code);
+        console.error("Error:", error);
         process.exit(1);
     }
 }
+
 startServer();
