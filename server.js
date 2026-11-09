@@ -16,7 +16,7 @@ const authRoutes = require("./routes/authRoutes");
 const app = express();
 
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin:[ "http://localhost:5173","https://auth-frontend1-zeta.vercel.app"]
 }));
 
 app.use(express.json());
